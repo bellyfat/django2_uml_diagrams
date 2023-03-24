@@ -1,0 +1,176 @@
+direction: left
+
+# django {
+#     style {
+#         fill: transparent
+#         stroke-width: 2
+#         stroke-dash: 10
+#     }
+
+#     views {
+#         style {fill: transparent}
+
+#         generic {
+#             View {
+#                 shape: class
+#                 http_method_names: "['get', 'post', 'put', ...]"
+#                 as_view(cls, **initkwargs)
+#                 dispatch(self, request, *args, **kwargs)
+#             }
+#         }
+#     }
+# }
+
+
+rest_framework {
+    views { 
+        APIView {
+            shape: class
+        }
+    }
+
+    generics {
+        GenericAPIView {
+            shape: class
+            queryset: None
+            filter_backends: api_settings.DEFAULT_FILTER_BACKENDS
+            get_queryset(self)
+            get_object(self)
+            filter_queryset(self, queryset)
+        }
+
+        CreateAPIView {
+            shape: class
+            post(self, request, *args, **kwargs)
+        }
+
+        CreateAPIViewCode: |python
+            def post(self, request, *args, **kwargs):
+                return self.create(request, *args, **kwargs)  
+        |
+
+        ListAPIView {
+            shape: class
+            get(self, request, *args, **kwargs)
+        }
+
+        ListAPIViewCode: |python
+            def get(self, request, *args, **kwargs):
+                return self.list(request, *args, **kwargs)
+        |
+
+        RetrieveAPIView {
+            shape: class
+            get(self, request, *args, **kwargs)
+        }
+
+        RetrieveAPIViewCode: |python
+            def get(self, request, *args, **kwargs):
+                return self.retrieve(request, *args, **kwargs)  
+        |
+
+        UpdateAPIView {
+            shape: class
+            put(self, request, *args, **kwars)
+            patch(self, request, *args, **kwars)
+        }
+
+        UpdateAPIViewCode: |python
+            def put(self, request, *args, **kwars):
+                return self.update(request, *args, **kwars)
+            def patch(self, request, *args, **kwars):
+                return self.partial_update(request, *args, **kwars)
+        |
+
+        DestroyAPIView {
+            shape: class
+            delete(self, request, *args, **kwars)
+        }
+
+        DestroyAPIViewCode: |python
+            def delete(self, request, *args, **kwars):
+                return self.destroy(request, *args, **kwars)
+        |
+    }
+
+    mixins {
+        CreateModelMixin {
+            shape: class
+            create(self, request, *args, **kwargs)
+            perform_create(self, serializer)
+        }
+
+        ListModelMixin {
+            shape: class
+            list(self, request, *args, **kwargs)
+        }
+
+        RetrieveModelMixin {
+            shape: class
+            retrieve(self, request, *args, **kwargs)
+        }
+
+        UpdateModelMixin {
+            shape: class
+            update(self, request, *args, **kwargs)
+            perform_update(self, serializer)
+            partial_update(self, request, *args, **kwargs)
+        }
+
+        DestroyModelMixin {
+            shape: class
+            destroy(self, request, *args, **kwargs)
+            perform_destroy(self, instance)
+        }
+    }
+
+}
+
+
+# links
+# rest_framework.views.APIView -> django.views.generic.View: inherit
+rest_framework.generics.GenericAPIView -> rest_framework.views.APIView: inherit
+
+rest_framework.generics.CreateAPIView -> rest_framework.generics.GenericAPIView: inherit
+rest_framework.generics.ListAPIView -> rest_framework.generics.GenericAPIView: inherit
+rest_framework.generics.RetrieveAPIView -> rest_framework.generics.GenericAPIView: inherit
+rest_framework.generics.UpdateAPIView -> rest_framework.generics.GenericAPIView: inherit
+rest_framework.generics.DestroyAPIView -> rest_framework.generics.GenericAPIView: inherit
+
+rest_framework.generics.CreateAPIView -> rest_framework.mixins.CreateModelMixin: inherit
+rest_framework.generics.ListAPIView -> rest_framework.mixins.ListModelMixin: inherit
+rest_framework.generics.RetrieveAPIView -> rest_framework.mixins.RetrieveModelMixin: inherit
+rest_framework.generics.UpdateAPIView -> rest_framework.mixins.UpdateModelMixin: inherit
+rest_framework.generics.DestroyAPIView -> rest_framework.mixins.DestroyModelMixin: inherit
+
+rest_framework.generics.CreateAPIViewCode -- rest_framework.generics.CreateAPIView {style.stroke-dash: 2}
+rest_framework.generics.RetrieveAPIViewCode -- rest_framework.generics.RetrieveAPIView {style.stroke-dash: 2}
+rest_framework.generics.ListAPIViewCode -- rest_framework.generics.ListAPIView {style.stroke-dash: 2}
+rest_framework.generics.UpdateAPIViewCode -- rest_framework.generics.UpdateAPIView {style.stroke-dash: 2}
+rest_framework.generics.DestroyAPIViewCode -- rest_framework.generics.DestroyAPIView {style.stroke-dash: 2}
+
+
+#styles
+rest_framework.style.font-size: 32
+rest_framework.style.bold: true
+rest_framework.views.style.font-size: 32
+rest_framework.mixins.style.font-size: 32
+rest_framework.generics.style.font-size: 32
+rest_framework.generics.GenericAPIView.style.font-size: 28
+rest_framework.generics.CreateAPIView.style.font-size: 28
+rest_framework.generics.ListAPIView.style.font-size: 28
+rest_framework.generics.RetrieveAPIView.style.font-size: 28
+rest_framework.generics.UpdateAPIView.style.font-size: 28
+rest_framework.generics.DestroyAPIView.style.font-size: 28
+
+rest_framework.generics.CreateAPIViewCode.style.font-size: 20
+rest_framework.generics.ListAPIViewCode.style.font-size: 20
+rest_framework.generics.RetrieveAPIViewCode.style.font-size: 20
+rest_framework.generics.UpdateAPIViewCode.style.font-size: 20
+rest_framework.generics.DestroyAPIViewCode.style.font-size: 20
+
+rest_framework.mixins.CreateModelMixin.style.font-size: 28
+rest_framework.mixins.ListModelMixin.style.font-size: 28
+rest_framework.mixins.RetrieveModelMixin.style.font-size: 28
+rest_framework.mixins.UpdateModelMixin.style.font-size: 28
+rest_framework.mixins.DestroyModelMixin.style.font-size: 28
